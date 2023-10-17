@@ -39,6 +39,7 @@ def validate_data(values):
         Raise errors if less than 6 or greater and if Str cannot be converted.
         """
         try:
+            [int(value) for value in values]
             if len(values) != 6:
                 raise ValueError(
                     f'Enter 6 figures exactly, you provided {len(values)} '
