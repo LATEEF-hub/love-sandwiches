@@ -59,6 +59,7 @@ def validate_data(values):
         return False
     return True
 
+
 def update_sales_worksheet(data):
     """
     To update sales WORKSHEET, add new row to data list provided.
@@ -68,8 +69,27 @@ def update_sales_worksheet(data):
     sales_worksheet.append_row(data)
     print("Worksheet successfully updated.\n")
 
+def calculate_surplus_data(sales_row):
+    """
+    """
+
+    print("Calculating Surplus data...\n")
+    stock = SHEET.worksheet("stock").get_all_values()
+    stock_row = stock[-1]
+    print(stock_row)
+
 
 # We have to call the function for the CODE it to run...6.
-data = get_sales_data()
-sales_data = [int(num) for num in data]
-update_sales_worksheet(sales_data)
+
+def main():
+    data = get_sales_data()
+    sales_data = [int(num) for num in data]
+    update_sales_worksheet(sales_data)
+    calculate_surplus_data(sales_data)
+
+print("Welcome to Love Sandwiches")
+main()    
+
+
+
+
