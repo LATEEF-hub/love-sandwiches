@@ -25,27 +25,40 @@ def get_sales_data():
     """
     Get sales figures inpurt from user 
     """
-    print("Enter sales data from the last market.,\nData should be six numbers, separated by commaes,\nExample: 10,20,3,4,5,5")
+    while True:
+        print("Enter sales data from the last market.,\nData should be six numbers, separated by commaes,\nExample: 10,20,3,4,5,5")
+        data_str = input("Enter your data here: ")
+        sales_data = data_str.split(",")
+        # validate_data(sales_data)
 
-    data_str = input("Enter your data here: ")
+        if validate_data(sales_data):
+            print("Data is valid")
+
+            break
+
+    return sales_data
+
     # print(f"\nThe data you provided is {data_str} ")
-    sales_data = data_str.split(",")
+
     # print(sales_data)
-    validate_data(sales_data)
+
 
 def validate_data(values):
-        """
-        Use Try and Exception method to validate, Inside Try convert all Str to Int
-        Raise errors if less than 6 or greater and if Str cannot be converted.
-        """
-        try:
-            [int(value) for value in values]
-            if len(values) != 6:
-                raise ValueError(
-                    f'Enter 6 figures exactly, you provided {len(values)} '
-                )
-        except ValueError as e:
-            print(f"Invalid data: {e}, Please try again.\n")
-         
-        
-get_sales_data() #We have to call the function for the CODE it to run...6.
+    """
+    Use Try and Exception method to validate, Inside Try convert all Str to Int
+    Raise errors if less than 6 or greater and if Str cannot be converted.
+    """
+    try:
+        [int(value) for value in values]  # To convert all value to Int
+        if len(values) != 6:
+            raise ValueError(
+                f'Enter 6 figures exactly, you provided {len(values)} '
+            )
+    except ValueError as e:
+        print(f"Invalid data: {e}, Please try again.\n")
+        return False
+    return True
+
+
+# We have to call the function for the CODE it to run...6.
+data = get_sales_data()
