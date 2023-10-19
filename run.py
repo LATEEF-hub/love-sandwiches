@@ -67,10 +67,24 @@ def update_sales_worksheet(data):
     print("Updating worksheet...\n")
     sales_worksheet = SHEET.worksheet("sales")
     sales_worksheet.append_row(data)
-    print("Worksheet successfully updated.\n")
+    print("Sales Worksheet successfully updated.\n")
+
+def update_surplus_worksheet(data):
+    """
+    To update surplus worksheet, add new row to List
+    """
+    print("Updating surplus worksheet...\n")
+    surplus_worksheet = SHEET.worksheet("surplus")
+    surplus_worksheet.append_row(data)
+    print("Surplus Worksheet successfully updated.\n")
+
 
 def calculate_surplus_data(sales_row): # To retrieve lastest stock order from Spreadsheet
     """
+    Compare Sales with Stock and Calc Surplus for each item type
+    Surplus is when Sales figure substract from stock
+    -Positive surplus indicate Waste-
+    -Negative Surplus indicate extra made after stock finished
     """
 
     print("Calculating Surplus data...\n")
@@ -93,7 +107,9 @@ def main():
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
     new_surplus_data = calculate_surplus_data(sales_data)
+    update_surplus_worksheet(new_surplus_data)
     print(new_surplus_data)
+   
 
 print("Welcome to Love Sandwiches")
 main()    
