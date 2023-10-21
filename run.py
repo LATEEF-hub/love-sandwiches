@@ -1,4 +1,5 @@
 
+from pprint import pprint
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -109,10 +110,29 @@ def calculate_surplus_data(sales_row): # To retrieve lastest stock order from Sp
         surplus_data.append(surplus)
     return surplus_data    
 
+def get_last_5_entries():
+    """
+    Collect column of data from sales worksheet, last 5 entries for 
+    each Sandwich and return data as list of lists
+    """    
+    sales = SHEET.worksheet("sales")
+    # column = sales.col_values(3)
+    # print(column)
+
+    columns =[]
+    for ind in range(1, 7):
+        column = sales.col_values(ind)
+        columns.append(column[-5:]) #To get the last 5 entries
+    # pprint(columns)    
+    return columns
+
 
 # We have to call the function for the CODE it to run...6.
 
 def main():
+    """
+    Run all programs function
+    """
     data = get_sales_data()
     sales_data = [int(num) for num in data]
     update_worksheet(sales_data, "sales")
@@ -122,7 +142,8 @@ def main():
    
 
 print("Welcome to Love Sandwiches")
-main()    
+# main()    
+sales_column = get_last_5_entries()
 
 
 
