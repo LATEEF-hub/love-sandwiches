@@ -33,7 +33,8 @@ def get_sales_data():
         # validate_data(sales_data)
 
         if validate_data(sales_data):
-            print("Data is valid")
+            print("\n")
+            print("Data is valid\n")
 
             break
 
@@ -60,55 +61,35 @@ def validate_data(values):
         return False
     return True
 
-
-# def update_sales_worksheet(data):
-#     """
-#     To update sales WORKSHEET, add new row to data list provided.
-#     """
-#     print("Updating worksheet...\n")
-#     sales_worksheet = SHEET.worksheet("sales")
-#     sales_worksheet.append_row(data)
-#     print("Sales Worksheet successfully updated.\n")
-
-# def update_surplus_worksheet(data):
-#     """
-#     To update surplus worksheet, add new row to List
-#     """
-#     print("Updating surplus worksheet...\n")
-#     surplus_worksheet = SHEET.worksheet("surplus")
-#     surplus_worksheet.append_row(data)
-#     print("Surplus Worksheet successfully updated.\n")
-
+    
 
 def update_worksheet(data, worksheet):
     """
     update worksheet
     """ 
-    print(f"Updating {worksheet} worksheet...")
+    print(f"Updating {worksheet} worksheet...\n")
     worksheet_to_update = SHEET.worksheet(worksheet)
     worksheet_to_update.append_row(data)
-    print(f"{worksheet} Worksheet updated successfully")
+    print(f"{worksheet} Worksheet updated successfully\n")
 
-
-def calculate_surplus_data(sales_row): # To retrieve lastest stock order from Spreadsheet
+def calculate_surplus_data(sales_row):
     """
-    Compare Sales with Stock and Calc Surplus for each item type
-    Surplus is when Sales figure substract from stock
-    -Positive surplus indicate Waste-
-    -Negative Surplus indicate extra made after stock finished
-    """
-
+    Calc surplus
+    """    
     print("Calculating Surplus data...\n")
     stock = SHEET.worksheet("stock").get_all_values()
     stock_row = stock[-1]
-    # print(stock_row)
+    # print(f"Stock row:{stock_row}")
+    # print(f"Sales row:{sales_row}")
 
-    #To iterate through 2 list at a time
+     #To iterate through 2 list at a time
     surplus_data =[]
     for stock, sales in zip(stock_row, sales_row):
-        surplus = int(stock) - sales
-        surplus_data.append(surplus)
-    return surplus_data    
+       surplus = int(stock) - sales
+       surplus_data.append(surplus)
+    #    print(f"Surplus Data:{surplus_data}\n")
+    return surplus_data  
+
 
 def get_last_5_entries():
     """
@@ -119,7 +100,7 @@ def get_last_5_entries():
     # column = sales.col_values(3)
     # print(column)
 
-    columns =[]
+    columns = []
     for ind in range(1, 7):
         column = sales.col_values(ind)
         columns.append(column[-5:]) #To get the last 5 entries
@@ -127,7 +108,22 @@ def get_last_5_entries():
     return columns
 
 
-# We have to call the function for the CODE it to run...6.
+def calculate_stock_data(data):
+    """
+    Calculate the average stock for each item type, adding 10%
+    """
+    print("Calculating stock data...\n")
+    new_stock_data=[]
+
+    for column in data:
+        int_column =[int(num) for num in column] # To convert list to INT
+        average = sum(int_column) / len(int_column) # To get the average
+        stock_num = average * 1.1 # to increase stock by 10%
+        new_stock_data.append(round(stock_num))
+
+    return new_stock_data 
+
+
 
 def main():
     """
@@ -138,12 +134,17 @@ def main():
     update_worksheet(sales_data, "sales")
     new_surplus_data = calculate_surplus_data(sales_data)
     update_worksheet(new_surplus_data, "surplus")
-    print(new_surplus_data)
-   
-
+    
+    # print(new_surplus_data)
+    sales_column = get_last_5_entries()
+    stock_data = calculate_stock_data(sales_column)
+    update_worksheet(stock_data,"stock")
+    print(stock_data)
+    
+print("")
 print("Welcome to Love Sandwiches")
-# main()    
-sales_column = get_last_5_entries()
+main()    
+
 
 
 
