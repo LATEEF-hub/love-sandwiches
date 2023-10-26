@@ -1,5 +1,3 @@
-
-from pprint import pprint
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -28,7 +26,7 @@ def get_sales_data():
     """
     while True:
         print("Enter sales data from the last market.,\nData should be six numbers, separated by commaes,\nExample: 10,20,3,4,5,5")
-        data_str = input("Enter your data here: ")
+        data_str = input("Enter your data here: \n")
         sales_data = data_str.split(",")
         # validate_data(sales_data)
 
